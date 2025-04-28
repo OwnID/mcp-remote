@@ -1,5 +1,6 @@
 import { OAuthClientProvider, UnauthorizedError } from '@modelcontextprotocol/sdk/client/auth.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
+import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js'
 import { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
 import { OAuthCallbackServerOptions } from './types'
 import express from 'express'
@@ -71,7 +72,8 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
  * @param headers Additional headers to send with the request
  * @param waitForAuthCode Function to wait for the auth code
  * @param skipBrowserAuth Whether to skip browser auth and use shared auth
- * @returns The connected StreamableHTTP client transport
+ * @param useStreamableHttp Whether to use Streamable HTTP transport instead of SSE
+ * @returns The connected client transport
  */
 export async function connectToRemoteServer(
   serverUrl: string,
@@ -79,20 +81,27 @@ export async function connectToRemoteServer(
   headers: Record<string, string>,
   waitForAuthCode: () => Promise<string>,
   skipBrowserAuth: boolean = false,
-): Promise<StreamableHTTPClientTransport> {
+  useStreamableHttp: boolean = false,
+): Promise<StreamableHTTPClientTransport | SSEClientTransport> {
   log(`[${pid}] Connecting to remote server: ${serverUrl}`)
   const url = new URL(serverUrl)
 
-  const transport = new StreamableHTTPClientTransport(url, {
-    authProvider,
-    requestInit: { headers },
-    reconnectionOptions: {
-      initialReconnectionDelay: 1000,
-      maxReconnectionDelay: 10000,
-      reconnectionDelayGrowFactor: 1.5,
-      maxRetries: 10,
-    },
-  })
+  // Create the appropriate transport (Streamable HTTP or SSE) based on the flag
+  const transport = useStreamableHttp 
+    ? new StreamableHTTPClientTransport(url, {
+        authProvider,
+        requestInit: { headers },
+        reconnectionOptions: {
+          initialReconnectionDelay: 1000,
+          maxReconnectionDelay: 10000,
+          reconnectionDelayGrowFactor: 1.5,
+          maxRetries: 10,
+        },
+      })
+    : new SSEClientTransport(url, {
+        authProvider,
+        requestInit: { headers }
+      })
 
   try {
     await transport.start()
@@ -113,17 +122,22 @@ export async function connectToRemoteServer(
         log('Completing authorization...')
         await transport.finishAuth(code)
 
-        // Create a new transport after auth
-        const newTransport = new StreamableHTTPClientTransport(url, {
-          authProvider,
-          requestInit: { headers },
-          reconnectionOptions: {
-            initialReconnectionDelay: 1000,
-            maxReconnectionDelay: 10000,
-            reconnectionDelayGrowFactor: 1.5,
-            maxRetries: 10,
-          },
-        })
+        // Create a new transport (Streamable HTTP or SSE) after auth with the same type as before
+        const newTransport = useStreamableHttp
+          ? new StreamableHTTPClientTransport(url, {
+              authProvider,
+              requestInit: { headers },
+              reconnectionOptions: {
+                initialReconnectionDelay: 1000,
+                maxReconnectionDelay: 10000,
+                reconnectionDelayGrowFactor: 1.5,
+                maxRetries: 10,
+              },
+            })
+          : new SSEClientTransport(url, {
+              authProvider,
+              requestInit: { headers }
+            })
         await newTransport.start()
         log('Connected to remote server after authentication')
         return newTransport
@@ -297,6 +311,7 @@ export async function parseCommandLineArgs(args: string[], defaultPort: number, 
   const serverUrl = args[0]
   const specifiedPort = args[1] ? parseInt(args[1]) : undefined
   const allowHttp = args.includes('--allow-http')
+  const useStreamableHttp = args.includes('--streamableHttp')
 
   if (!serverUrl) {
     log(usage)
@@ -340,7 +355,7 @@ export async function parseCommandLineArgs(args: string[], defaultPort: number, 
     })
   }
 
-  return { serverUrl, callbackPort, headers }
+  return { serverUrl, callbackPort, headers, useStreamableHttp }
 }
 
 /**

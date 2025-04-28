@@ -68,10 +68,20 @@ To bypass authentication, or to emit custom headers on all requests to your remo
 
 - If `npx` is producing errors, consider adding `-y` as the first argument to auto-accept the installation of the `mcp-remote` package.
 
+- To use Streamable HTTP instead of Server-Sent Events (SSE), add the `--streamableHttp` flag. This can be useful for environments where SSE doesn't work well:
+
+```json
+      "args": [
+        "mcp-remote",
+        "https://remote.mcp.server/sse",
+        "--streamableHttp"
+      ]
+```
+
 ```json
       "command": "npx",
       "args": [
-        "-y"
+        "-y",
         "mcp-remote",
         "https://remote.mcp.server/sse"
       ]

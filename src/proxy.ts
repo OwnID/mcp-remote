@@ -18,7 +18,7 @@ import { coordinateAuth } from './lib/coordination'
 /**
  * Main function to run the proxy
  */
-async function runProxy(serverUrl: string, callbackPort: number, headers: Record<string, string>) {
+async function runProxy(serverUrl: string, callbackPort: number, headers: Record<string, string>, useStreamableHttp: boolean = false) {
   // Set up event emitter for auth flow
   const events = new EventEmitter()
 
@@ -48,7 +48,7 @@ async function runProxy(serverUrl: string, callbackPort: number, headers: Record
 
   try {
     // Connect to remote server with authentication
-    const remoteTransport = await connectToRemoteServer(serverUrl, authProvider, headers, waitForAuthCode, skipBrowserAuth)
+    const remoteTransport = await connectToRemoteServer(serverUrl, authProvider, headers, waitForAuthCode, skipBrowserAuth, useStreamableHttp)
 
     // Set up bidirectional proxy between local and remote transports
     mcpProxy({
@@ -99,9 +99,9 @@ to the CA certificate file. If using claude_desktop_config.json, this might look
 }
 
 // Parse command-line arguments and run the proxy
-parseCommandLineArgs(process.argv.slice(2), 3334, 'Usage: npx tsx proxy.ts <https://server-url> [callback-port]')
-  .then(({ serverUrl, callbackPort, headers }) => {
-    return runProxy(serverUrl, callbackPort, headers)
+parseCommandLineArgs(process.argv.slice(2), 3334, 'Usage: npx tsx proxy.ts <https://server-url> [callback-port] [--streamableHttp]')
+  .then(({ serverUrl, callbackPort, headers, useStreamableHttp }) => {
+    return runProxy(serverUrl, callbackPort, headers, useStreamableHttp)
   })
   .catch((error) => {
     log('Fatal error:', error)
