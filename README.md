@@ -23,7 +23,10 @@ All the most popular MCP clients (Claude Desktop, Cursor & Windsurf) use the fol
   "mcpServers": {
     "remote-example": {
       "command": "npx",
-      "args": ["mcp-remote", "https://remote.mcp.server/sse"]
+      "args": [
+        "mcp-remote",
+        "https://remote.mcp.server/sse"
+      ]
     }
   }
 }
@@ -38,7 +41,12 @@ To bypass authentication, or to emit custom headers on all requests to your remo
   "mcpServers": {
     "remote-example": {
       "command": "npx",
-      "args": ["mcp-remote", "https://remote.mcp.server/sse", "--header", "Authorization: Bearer ${AUTH_TOKEN}"]
+      "args": [
+        "mcp-remote",
+        "https://remote.mcp.server/sse",
+        "--header",
+        "Authorization: Bearer ${AUTH_TOKEN}"
+      ]
     },
     "env": {
       "AUTH_TOKEN": "..."
@@ -66,17 +74,7 @@ To bypass authentication, or to emit custom headers on all requests to your remo
 
 ### Flags
 
-- If `npx` is producing errors, consider adding `-y` as the first argument to auto-accept the installation of the `mcp-remote` package.
-
-- To use Streamable HTTP instead of Server-Sent Events (SSE), add the `--streamableHttp` flag. This can be useful for environments where SSE doesn't work well:
-
-```json
-      "args": [
-        "mcp-remote",
-        "https://remote.mcp.server/sse",
-        "--streamableHttp"
-      ]
-```
+* If `npx` is producing errors, consider adding `-y` as the first argument to auto-accept the installation of the `mcp-remote` package.
 
 ```json
       "command": "npx",
@@ -87,7 +85,17 @@ To bypass authentication, or to emit custom headers on all requests to your remo
       ]
 ```
 
-- To force `npx` to always check for an updated version of `mcp-remote`, add the `@latest` flag:
+* To use Streamable HTTP instead of Server-Sent Events (SSE), add the `--streamableHttp` flag. This is recommended as SSE is deprecated:
+
+```json
+      "args": [
+        "mcp-remote",
+        "https://remote.mcp.server/sse",
+        "--streamableHttp"
+      ]
+```
+
+* To force `npx` to always check for an updated version of `mcp-remote`, add the `@latest` flag:
 
 ```json
       "args": [
@@ -96,7 +104,7 @@ To bypass authentication, or to emit custom headers on all requests to your remo
       ]
 ```
 
-- To change which port `mcp-remote` listens for an OAuth redirect (by default `3334`), add an additional argument after the server URL. Note that whatever port you specify, if it is unavailable an open port will be chosen at random.
+* To change which port `mcp-remote` listens for an OAuth redirect (by default `3334`), add an additional argument after the server URL. Note that whatever port you specify, if it is unavailable an open port will be chosen at random.
 
 ```json
       "args": [
@@ -106,7 +114,7 @@ To bypass authentication, or to emit custom headers on all requests to your remo
       ]
 ```
 
-- To allow HTTP connections in trusted private networks, add the `--allow-http` flag. Note: This should only be used in secure private networks where traffic cannot be intercepted.
+* To allow HTTP connections in trusted private networks, add the `--allow-http` flag. Note: This should only be used in secure private networks where traffic cannot be intercepted.
 
 ```json
       "args": [
@@ -122,8 +130,8 @@ To bypass authentication, or to emit custom headers on all requests to your remo
 
 In order to add an MCP server to Claude Desktop you need to edit the configuration file located at:
 
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+* macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+* Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
 If it does not exist yet, [you may need to enable it under Settings > Developer](https://modelcontextprotocol.io/quickstart/user#2-add-the-filesystem-mcp-server).
 
@@ -145,16 +153,16 @@ As of version `0.48.0`, Cursor supports unauthed SSE servers directly. If your M
 
 For instructions on building & deploying remote MCP servers, including acting as a valid OAuth client, see the following resources:
 
-- https://developers.cloudflare.com/agents/guides/remote-mcp-server/
+* https://developers.cloudflare.com/agents/guides/remote-mcp-server/
 
 In particular, see:
 
-- https://github.com/cloudflare/workers-oauth-provider for defining an MCP-comlpiant OAuth server in Cloudflare Workers
-- https://github.com/cloudflare/agents/tree/main/examples/mcp for defining an `McpAgent` using the [`agents`](https://npmjs.com/package/agents) framework.
+* https://github.com/cloudflare/workers-oauth-provider for defining an MCP-comlpiant OAuth server in Cloudflare Workers
+* https://github.com/cloudflare/agents/tree/main/examples/mcp for defining an `McpAgent` using the [`agents`](https://npmjs.com/package/agents) framework.
 
 For more information about testing these servers, see also:
 
-- https://developers.cloudflare.com/agents/guides/test-remote-mcp-server/
+* https://developers.cloudflare.com/agents/guides/test-remote-mcp-server/
 
 Know of more resources you'd like to share? Please add them to this Readme and send a PR!
 
@@ -172,7 +180,7 @@ Then restarting your MCP client.
 
 ### Check your Node version
 
-Make sure that the version of Node you have installed is [18 or
+Make sure that the version of Node you have installed is [18 or 
 higher](https://modelcontextprotocol.io/quickstart/server). Claude
 Desktop will use your system version of Node, even if you have a newer
 version installed elsewhere.
@@ -189,10 +197,13 @@ this might look like:
 
 ```json
 {
-  "mcpServers": {
+ "mcpServers": {
     "remote-example": {
       "command": "npx",
-      "args": ["mcp-remote", "https://remote.mcp.server/sse"],
+      "args": [
+        "mcp-remote",
+        "https://remote.mcp.server/sse"
+      ],
       "env": {
         "NODE_EXTRA_CA_CERTS": "{your CA certificate file path}.pem"
       }
@@ -203,10 +214,10 @@ this might look like:
 
 ### Check the logs
 
-- [Follow Claude Desktop logs in real-time](https://modelcontextprotocol.io/docs/tools/debugging#debugging-in-claude-desktop)
-- MacOS / Linux:<br/>`tail -n 20 -F ~/Library/Logs/Claude/mcp*.log`
-- For bash on WSL:<br/>`tail -n 20 -f "C:\Users\YourUsername\AppData\Local\Claude\Logs\mcp.log"`
-- Powershell: <br/>`Get-Content "C:\Users\YourUsername\AppData\Local\Claude\Logs\mcp.log" -Wait -Tail 20`
+* [Follow Claude Desktop logs in real-time](https://modelcontextprotocol.io/docs/tools/debugging#debugging-in-claude-desktop)
+* MacOS / Linux:<br/>`tail -n 20 -F ~/Library/Logs/Claude/mcp*.log`
+* For bash on WSL:<br/>`tail -n 20 -f "C:\Users\YourUsername\AppData\Local\Claude\Logs\mcp.log"`
+* Powershell: <br/>`Get-Content "C:\Users\YourUsername\AppData\Local\Claude\Logs\mcp.log" -Wait -Tail 20`
 
 ## Debugging
 
