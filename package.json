@@ -1,6 +1,6 @@
 {
   "name": "@ownid/mcp-remote",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "Remote proxy for Model Context Protocol, allowing local-only clients to connect to remote servers using oAuth",
   "keywords": [
     "mcp",
@@ -25,8 +25,7 @@
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
-    "check": "prettier --check . && tsc",
-    "publish": "npm publish --tag next"
+    "check": "prettier --check . && tsc"
   },
   "dependencies": {
     "express": "^4.21.2",

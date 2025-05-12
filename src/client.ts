@@ -117,7 +117,6 @@ async function runClient(
     log('Connected successfully!')
 
     if (!initOnly) {
-
       try {
         // Request tools list
         log('Requesting tools list...')
