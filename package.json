@@ -1,6 +1,6 @@
 {
-  "name": "mcp-remote",
-  "version": "0.1.4",
+  "name": "@ownid/mcp-remote",
+  "version": "0.2.0",
   "description": "Remote proxy for Model Context Protocol, allowing local-only clients to connect to remote servers using oAuth",
   "keywords": [
     "mcp",
@@ -10,7 +10,7 @@
     "oauth"
   ],
   "author": "Glen Maddern <glen@cloudflare.com>",
-  "repository": "https://github.com/geelen/mcp-remote",
+  "repository": "https://github.com/OwnID/mcp-remote",
   "type": "module",
   "files": [
     "dist",
@@ -25,7 +25,8 @@
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
-    "check": "prettier --check . && tsc"
+    "check": "prettier --check . && tsc",
+    "publish": "npm publish --tag next"
   },
   "dependencies": {
     "express": "^4.21.2",
