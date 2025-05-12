@@ -32,6 +32,7 @@ async function runClient(
   callbackPort: number,
   headers: Record<string, string>,
   transportStrategy: TransportStrategy = 'http-first',
+  initOnly: boolean = false
 ) {
   // Set up event emitter for auth flow
   const events = new EventEmitter()
@@ -115,22 +116,25 @@ async function runClient(
 
     log('Connected successfully!')
 
-    try {
-      // Request tools list
-      log('Requesting tools list...')
-      const tools = await client.request({ method: 'tools/list' }, ListToolsResultSchema)
-      log('Tools:', JSON.stringify(tools, null, 2))
-    } catch (e) {
-      log('Error requesting tools list:', e)
-    }
+    if (!initOnly) {
 
-    try {
-      // Request resources list
-      log('Requesting resource list...')
-      const resources = await client.request({ method: 'resources/list' }, ListResourcesResultSchema)
-      log('Resources:', JSON.stringify(resources, null, 2))
-    } catch (e) {
-      log('Error requesting resources list:', e)
+      try {
+        // Request tools list
+        log('Requesting tools list...')
+        const tools = await client.request({ method: 'tools/list' }, ListToolsResultSchema)
+        log('Tools:', JSON.stringify(tools, null, 2))
+      } catch (e) {
+        log('Error requesting tools list:', e)
+      }
+
+      try {
+        // Request resources list
+        log('Requesting resource list...')
+        const resources = await client.request({ method: 'resources/list' }, ListResourcesResultSchema)
+        log('Resources:', JSON.stringify(resources, null, 2))
+      } catch (e) {
+        log('Error requesting resources list:', e)
+      }
     }
 
     // log('Listening for messages. Press Ctrl+C to exit.')
@@ -152,8 +156,8 @@ async function runClient(
 
 // Parse command-line arguments and run the client
 parseCommandLineArgs(process.argv.slice(2), 3333, 'Usage: npx tsx client.ts <https://server-url> [callback-port]')
-  .then(({ serverUrl, callbackPort, headers, transportStrategy }) => {
-    return runClient(serverUrl, callbackPort, headers, transportStrategy)
+  .then(({ serverUrl, callbackPort, headers, transportStrategy, init }) => {
+    return runClient(serverUrl, callbackPort, headers, transportStrategy, init)
   })
   .catch((error) => {
     console.error('Fatal error:', error)

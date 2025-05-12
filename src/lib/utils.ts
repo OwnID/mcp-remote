@@ -16,8 +16,15 @@ import net from 'net'
 import crypto from 'crypto'
 import open from 'open'
 
+let version;
+try {
+  version = require('../../package.json').version
+} catch (e) {
+  version = "local"
+}
+
 // Package version from package.json
-export const MCP_REMOTE_VERSION = require('../../package.json').version
+export const MCP_REMOTE_VERSION = version
 
 const pid = process.pid
 export function log(str: string, ...rest: unknown[]) {
@@ -427,6 +434,7 @@ export async function parseCommandLineArgs(args: string[], defaultPort: number, 
   const serverUrl = args[0]
   const specifiedPort = args[1] ? parseInt(args[1]) : undefined
   const allowHttp = args.includes('--allow-http')
+  const init = args.includes('--init')
 
   // Parse transport strategy
   let transportStrategy: TransportStrategy = 'http-first' // Default
@@ -483,7 +491,7 @@ export async function parseCommandLineArgs(args: string[], defaultPort: number, 
     })
   }
 
-  return { serverUrl, callbackPort, headers, transportStrategy }
+  return { serverUrl, callbackPort, headers, transportStrategy, init }
 }
 
 /**
