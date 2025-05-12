@@ -36,7 +36,7 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
   transportToClient.onmessage = (_message) => {
     // TODO: fix types
     const message = _message as any
-    log('[Local→Remote]', message.method || message.id, JSON.stringify(message))
+    log('[Local→Remote]', message.method || message.id)
     if (message.method === 'initialize') {
       const { clientInfo } = message.params
       if (clientInfo) clientInfo.name = `${clientInfo.name} (via mcp-remote ${MCP_REMOTE_VERSION})`
