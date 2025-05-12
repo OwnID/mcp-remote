@@ -14,9 +14,10 @@ import { OAuthCallbackServerOptions } from './types'
 import express from 'express'
 import net from 'net'
 import crypto from 'crypto'
+import open from 'open'
 
 // Package version from package.json
-export const MCP_REMOTE_VERSION = require('../../package.json').version
+export const MCP_REMOTE_VERSION = "17" // require('../../package.json').version
 
 const pid = process.pid
 export function log(str: string, ...rest: unknown[]) {
@@ -35,7 +36,7 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
   transportToClient.onmessage = (_message) => {
     // TODO: fix types
     const message = _message as any
-    log('[Local→Remote]', message.method || message.id)
+    log('[Local→Remote]', message.method || message.id, JSON.stringify(message))
     if (message.method === 'initialize') {
       const { clientInfo } = message.params
       if (clientInfo) clientInfo.name = `${clientInfo.name} (via mcp-remote ${MCP_REMOTE_VERSION})`
@@ -48,6 +49,14 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
     // TODO: fix types
     const message = _message as any
     log('[Remote→Local]', message.method || message.id)
+    const text = message.result?.content?.[0]?.text;
+    if (text && text.includes("Please authenticate before proceeding")) {
+      const match = text.match(/^https?:\/\/\S+/m)
+      const url = match ? match[0] : null
+      log("Authentication URL:", url)
+      open(url)
+      log('Browser opened automatically.')
+    }
     transportToClient.send(message).catch(onClientError)
   }
 
