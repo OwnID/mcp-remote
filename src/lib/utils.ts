@@ -17,7 +17,7 @@ import crypto from 'crypto'
 import open from 'open'
 
 // Package version from package.json
-export const MCP_REMOTE_VERSION = "17" // require('../../package.json').version
+export const MCP_REMOTE_VERSION = require('../../package.json').version
 
 const pid = process.pid
 export function log(str: string, ...rest: unknown[]) {
