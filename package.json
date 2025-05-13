@@ -1,6 +1,6 @@
 {
   "name": "@ownid/mcp-remote",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Remote proxy for Model Context Protocol, allowing local-only clients to connect to remote servers using oAuth",
   "keywords": [
     "mcp",
@@ -20,14 +20,17 @@
   "main": "dist/index.js",
   "bin": {
     "mcp-remote": "dist/proxy.js",
-    "mcp-remote-client": "dist/client.js"
+    "mcp-remote-client": "dist/client.js",
+    "install": "dist/installer.js"
   },
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
-    "check": "prettier --check . && tsc"
+    "check": "prettier --check . && tsc",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
     "express": "^4.21.2",
     "open": "^10.1.0"
   },
@@ -43,7 +46,8 @@
   "tsup": {
     "entry": [
       "src/client.ts",
-      "src/proxy.ts"
+      "src/proxy.ts",
+      "src/installer.ts"
     ],
     "format": [
       "esm"
