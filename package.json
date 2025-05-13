@@ -27,7 +27,8 @@
     "build": "tsup",
     "build:watch": "tsup --watch",
     "check": "prettier --check . && tsc",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "sync-upstream": "git remote get-url upstream || git remote add upstream https://github.com/geelen/mcp-remote.git && git fetch upstream && git merge upstream/main"
   },
   "dependencies": {
     "chalk": "^4.1.2",
