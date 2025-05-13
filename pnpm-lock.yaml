@@ -17,25 +17,16 @@ importers:
       open:
         specifier: ^10.1.0
         version: 10.1.0
-      os-homedir:
-        specifier: ^2.0.0
-        version: 2.0.0
     devDependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.10.2
         version: 1.10.2
-      '@types/chalk':
-        specifier: ^2.2.4
-        version: 2.2.4
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
       '@types/node':
         specifier: ^22.13.10
         version: 22.13.10
-      '@types/os-homedir':
-        specifier: ^1.0.2
-        version: 1.0.2
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -329,10 +320,6 @@ packages:
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
 
-  '@types/chalk@2.2.4':
-    resolution: {integrity: sha512-pb/QoGqtCpH2famSp72qEsXkNzcErlVmiXlQ/ww+5AddD8TmmYS7EWg5T20YiNCAiTgs8pMf2G8SJG5h/ER1ZQ==, tarball: https://registry.npmjs.org/@types/chalk/-/chalk-2.2.4.tgz}
-    deprecated: This is a stub types definition. chalk provides its own type definitions, so you do not need this installed.
-
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
@@ -353,9 +340,6 @@ packages:
 
   '@types/node@22.13.10':
     resolution: {integrity: sha512-I6LPUvlRH+O6VRUqYOcMudhaIdUVWfsjnZavnsraHvpBwaEyMN29ry+0UVJhImYL16xsscu0aske3yA+uPOWfw==}
-
-  '@types/os-homedir@1.0.2':
-    resolution: {integrity: sha512-bT/9kIoUAx6ukcuvLFfSLShJPJUQ8xhoR+iSM5BGW4xr3msoPG0Yy8ueFMZ8SEE6/3V0NjYyNc7o9OSrjo5GiA==, tarball: https://registry.npmjs.org/@types/os-homedir/-/os-homedir-1.0.2.tgz}
 
   '@types/qs@6.9.18':
     resolution: {integrity: sha512-kK7dgTYDyGqS+e2Q4aK9X3D7q234CIZ1Bv0q/7Z5IwRDoADNU81xXJK/YVyLbLTZCoIwUoDoffFeF+p/eIklAA==}
@@ -825,11 +809,6 @@ packages:
   open@10.1.0:
     resolution: {integrity: sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==}
     engines: {node: '>=18'}
-
-  os-homedir@2.0.0:
-    resolution: {integrity: sha512-saRNz0DSC5C/I++gFIaJTXoFJMRwiP5zHar5vV3xQ2TkgEw6hDCcU5F272JjUylpiVgBrZNQHnfjkLabTfb92Q==, tarball: https://registry.npmjs.org/os-homedir/-/os-homedir-2.0.0.tgz}
-    engines: {node: '>=0.10.0'}
-    deprecated: This is not needed anymore. Use `require('os').homedir()` instead.
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
@@ -1322,10 +1301,6 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 22.13.10
 
-  '@types/chalk@2.2.4':
-    dependencies:
-      chalk: 4.1.2
-
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 22.13.10
@@ -1353,8 +1328,6 @@ snapshots:
   '@types/node@22.13.10':
     dependencies:
       undici-types: 6.20.0
-
-  '@types/os-homedir@1.0.2': {}
 
   '@types/qs@6.9.18': {}
 
@@ -1860,8 +1833,6 @@ snapshots:
       define-lazy-prop: 3.0.0
       is-inside-container: 1.0.0
       is-wsl: 3.1.0
-
-  os-homedir@2.0.0: {}
 
   package-json-from-dist@1.0.1: {}
 
