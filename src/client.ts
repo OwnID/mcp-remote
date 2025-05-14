@@ -27,12 +27,12 @@ import { createLazyAuthCoordinator } from './lib/coordination'
 /**
  * Main function to run the client
  */
-async function runClient(
+export async function runClient(
   serverUrl: string,
   callbackPort: number,
   headers: Record<string, string>,
   transportStrategy: TransportStrategy = 'http-first',
-  initOnly: boolean = false
+  initOnly: boolean = false,
 ) {
   // Set up event emitter for auth flow
   const events = new EventEmitter()
@@ -154,7 +154,7 @@ async function runClient(
 }
 
 // Parse command-line arguments and run the client
-parseCommandLineArgs(process.argv.slice(2), 3333, 'Usage: npx tsx client.ts <https://server-url> [callback-port]')
+parseCommandLineArgs(process.argv.slice(2), 3334, 'Usage: npx tsx client.ts <https://server-url> [callback-port]')
   .then(({ serverUrl, callbackPort, headers, transportStrategy, init }) => {
     return runClient(serverUrl, callbackPort, headers, transportStrategy, init)
   })

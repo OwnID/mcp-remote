@@ -6,6 +6,8 @@ import { execSync } from 'child_process'
 import chalk from 'chalk'
 import os from 'os'
 import packageJson from '../package.json'
+import { runClient } from './client'
+import { findAvailablePort } from './lib/utils'
 
 const homeDir = os.homedir()
 const NPX_TOOL_NAME = '@ownid/mcp-remote'
@@ -98,7 +100,7 @@ function readConfig(configPath: string, installTarget: string): Config {
   }
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const args = process.argv.slice(2)
 
   if (args.length === 1 && (args[0] === '--help' || args[0] === '-h')) {
@@ -161,18 +163,17 @@ function main(): void {
     config.mcpServers = {}
   }
 
-  const npxPath = getNpxPath()
-
   try {
     console.log(chalk.blue(`Verifying connection to server...`))
-    const verificationCmd = `${npxPath} -y -p ${NPX_TOOL_NAME} mcp-remote-client ${serverUrl} --init`
-    execSync(verificationCmd, { stdio: 'inherit' })
 
-    if (config.mcpServers) {
-      config.mcpServers[serverName] = {
-        command: npxPath,
-        args: ['-y', NPX_TOOL_NAME, serverUrl],
-      }
+    const callbackPort = await findAvailablePort(3334)
+    await runClient(serverUrl, callbackPort, {}, 'http-first', true)
+
+    const npxPath = getNpxPath()
+    config.mcpServers = config.mcpServers || {}
+    config.mcpServers[serverName] = {
+      command: npxPath,
+      args: ['-y', NPX_TOOL_NAME, serverUrl],
     }
 
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
@@ -188,4 +189,7 @@ function main(): void {
   }
 }
 
-main()
+main().catch((error) => {
+  console.error('Error:', error)
+  process.exit(1)
+})
