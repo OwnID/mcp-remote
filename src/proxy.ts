@@ -13,12 +13,11 @@ import { EventEmitter } from 'events'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   connectToRemoteServer,
+  getServerUrlHash,
   log,
   mcpProxy,
   parseCommandLineArgs,
   setupSignalHandlers,
-  getServerUrlHash,
-  MCP_REMOTE_VERSION,
   TransportStrategy,
 } from './lib/utils'
 import { NodeOAuthClientProvider } from './lib/node-oauth-client-provider'
