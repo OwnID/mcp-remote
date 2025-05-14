@@ -1,7 +1,7 @@
 import path from 'path'
 import os from 'os'
 import fs from 'fs/promises'
-import { log, MCP_REMOTE_VERSION } from './utils'
+import { log } from './utils'
 
 /**
  * MCP Remote Authentication Configuration
@@ -84,7 +84,7 @@ export async function deleteLockfile(serverUrlHash: string): Promise<void> {
 export function getConfigDir(): string {
   const baseConfigDir = process.env.MCP_REMOTE_CONFIG_DIR || path.join(os.homedir(), '.mcp-auth')
   // Add a version subdirectory so we don't need to worry about backwards/forwards compatibility yet
-  return path.join(baseConfigDir, `mcp-remote-${MCP_REMOTE_VERSION}`)
+  return path.join(baseConfigDir, `mcp-remote`)
 }
 
 /**

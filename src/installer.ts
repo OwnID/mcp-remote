@@ -10,7 +10,7 @@ import { runClient } from './client'
 import { findAvailablePort } from './lib/utils'
 
 const homeDir = os.homedir()
-const NPX_TOOL_NAME = '@ownid/mcp-remote'
+const NPX_TOOL_NAME = '@ownid/mcp-remote@latest'
 
 function getNpxPath(): string {
   try {

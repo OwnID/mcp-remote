@@ -16,16 +16,6 @@ import net from 'net'
 import crypto from 'crypto'
 import open from 'open'
 
-let version;
-try {
-  version = require('../../package.json').version
-} catch (e) {
-  version = "local"
-}
-
-// Package version from package.json
-export const MCP_REMOTE_VERSION = version
-
 const pid = process.pid
 export function log(str: string, ...rest: unknown[]) {
   // Using stderr so that it doesn't interfere with stdout
@@ -46,7 +36,7 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
     log('[Local→Remote]', message.method || message.id)
     if (message.method === 'initialize') {
       const { clientInfo } = message.params
-      if (clientInfo) clientInfo.name = `${clientInfo.name} (via mcp-remote ${MCP_REMOTE_VERSION})`
+      if (clientInfo) clientInfo.name = `${clientInfo.name} (via mcp-remote})`
       log(JSON.stringify(message, null, 2))
     }
     transportToServer.send(message).catch(onServerError)
@@ -56,11 +46,11 @@ export function mcpProxy({ transportToClient, transportToServer }: { transportTo
     // TODO: fix types
     const message = _message as any
     log('[Remote→Local]', message.method || message.id)
-    const text = message.result?.content?.[0]?.text;
-    if (text && text.includes("Please authenticate before proceeding")) {
+    const text = message.result?.content?.[0]?.text
+    if (text && text.includes('Please authenticate before proceeding')) {
       const match = text.match(/^https?:\/\/\S+/m)
       const url = match ? match[0] : null
-      log("Authentication URL:", url)
+      log('Authentication URL:', url)
       open(url)
       log('Browser opened automatically.')
     }
