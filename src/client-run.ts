@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Parse command-line arguments and run the client
 import { parseCommandLineArgs } from './lib/utils'
 import { runClient } from './client'
