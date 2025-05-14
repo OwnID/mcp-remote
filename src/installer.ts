@@ -27,10 +27,10 @@ function getNpxPath(): string {
 
 function printUsage(): void {
   console.log(`
-Usage: npx @ownid/mcp-desktop-installer <install-target> <server-name> <server-url>
+Usage: npx -p @ownid/mcp-remote install <install-target> <server-name> <server-url>
 
 Install Target: "Claude Desktop", "VSCode", or "Cursor"
-Example: npx @ownid/mcp-desktop-installer "Claude Desktop" acme https://abc.server.ownid.ai/mcp/ai
+Example: npx -p @ownid/mcp-remote install "Claude Desktop" acme https://abc.server.ownid.ai/mcp/ai
 `)
 }
 
