@@ -134,7 +134,6 @@ export async function runClient(
     if (server) {
       server.close()
     }
-    process.exit(0)
   } catch (error) {
     log('Fatal error:', error)
     // Only close the server if it was initialized
