@@ -13,15 +13,7 @@ import { EventEmitter } from 'events'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { ListResourcesResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js'
 import { NodeOAuthClientProvider } from './lib/node-oauth-client-provider'
-import {
-  parseCommandLineArgs,
-  setupSignalHandlers,
-  log,
-  MCP_REMOTE_VERSION,
-  getServerUrlHash,
-  connectToRemoteServer,
-  TransportStrategy,
-} from './lib/utils'
+import { connectToRemoteServer, getServerUrlHash, log, MCP_REMOTE_VERSION, setupSignalHandlers, TransportStrategy } from './lib/utils'
 import { createLazyAuthCoordinator } from './lib/coordination'
 
 /**
@@ -152,13 +144,3 @@ export async function runClient(
     process.exit(1)
   }
 }
-
-// Parse command-line arguments and run the client
-parseCommandLineArgs(process.argv.slice(2), 3334, 'Usage: npx tsx client.ts <https://server-url> [callback-port]')
-  .then(({ serverUrl, callbackPort, headers, transportStrategy, init }) => {
-    return runClient(serverUrl, callbackPort, headers, transportStrategy, init)
-  })
-  .catch((error) => {
-    console.error('Fatal error:', error)
-    process.exit(1)
-  })
