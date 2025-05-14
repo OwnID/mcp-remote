@@ -183,6 +183,7 @@ async function main(): Promise<void> {
     console.log(chalk.blue(`  Name: ${serverName}`))
     console.log(chalk.blue(`  URL: ${serverUrl}`))
     console.log(chalk.blue(`\nRestart ${installTarget} to apply changes.`))
+    process.exit(0)
   } catch (error) {
     console.log(chalk.red(`Error: Server verification failed. Configuration not updated.`))
     process.exit(1)
